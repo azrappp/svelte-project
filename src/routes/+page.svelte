@@ -19,13 +19,15 @@
 //   console.log(movies)
 </script>
 
-<nav class="flex flex-row border-b border-white border-opacity-10 bg-black backdrop-blur-lg bg-opacity-10 w-full px-8 py-4 items-center justify-between">
-    <div class="text-white">Movie Album</div>
+<nav class="font-sans flex flex-row border-b border-black border-opacity-10 bg-white backdrop-blur-lg bg-opacity-10 w-full px-8 py-4 items-center justify-between">
+    <div class="text-black font-bold">WatchMovie</div>
     <div class="flex flex-row gap-x-4">
-        <!-- <a href="" class="text-white">Home</a>
-        <a href="" class="text-white">Trending Movies</a>
-        <a href="" class="text-white">Trending TV Shows</a> -->
+        <a href="" class="text-black font-normal font-san  text-sm">Movie</a>
+        <a href="" class="text-black font-normal font-sans text-sm">Tv Series</a>
+        <a href="" class="text-black font-normal font-sans text-sm">Anime</a>
+        <a href="" class="text-black font-normal font-sans text-sm">Friends</a>
     </div>
+    <div class=""></div>
 </nav>
 
 <main>
