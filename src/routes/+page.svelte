@@ -1,6 +1,8 @@
 <script>
   import { onMount } from 'svelte';
   import { fetchMovies , fetchGenres} from '../api/api.js';
+  import PopularMovies from '../components/PopularMovies.svelte';
+  import BestMovie from '../components/BestMovie.svelte';
 
   let popularMovies = [];
   let homeMovies = [];
@@ -63,15 +65,7 @@
   };
 </script>
 
-<style>
-  .scrollbar-hidden::-webkit-scrollbar {
-  display: none;
-}
-.transition-transform {
-    transition: transform 1s ease-in-out;
-  }
 
-</style>
 <nav class="font-sans flex flex-row border-b border-black border-opacity-10 bg-white backdrop-blur-lg bg-opacity-10 w-full px-28  py-4 items-center justify-between">
   <div class="text-black font-bold">WatchMovie</div>
   <div class="flex flex-row gap-x-4">
@@ -118,64 +112,9 @@
   </div>
 </div>
 
-
-    <!-- Movies Section -->
-    <div>
-      <h2 class="font-bold text-black hide-scrollbar text-4xl my-5">Film Popular</h2>
-      <div class="container flex flex-row scrollbar-hidden hide-scrollbar overflow-x-auto gap-x-2">
-        {#if errorPopular}
-          <p class="text-red-500">Error: {errorPopular}</p>
-        {:else}
-          {#each popularMovies as movie}
-            <div class="relative h-[367px] w-60 flex-shrink-0 flex items-end justify-start text-left bg-cover bg-center rounded-2xl"
-              style="background-image: url('https://image.tmdb.org/t/p/w500{movie.poster_path}');">
-              <div class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparent to-gray-900 rounded-lg"></div>
-  
-              <div class="flex mx-4 w-full flex-col mb-5 z-10 gap-y-1">
-                <div class="flex flex-row items-end gap-x-1 flex-shrink">
-                  <p class={`font-bold text-white ${getFontSize(movie.title)}`}>{movie.title}</p>
-                  <p class="font-light text-white text-sm">{movie.release_date.slice(0, 4)}</p>
-                </div>
-                <div class="flex flex-row justify-between items-end">
-                  <div class="flex flex-col gap-y-0.5">
-                    <p class="text-xs font-light text-white">⭐{movie.vote_average}</p>
-                    <p class="ms-1 text-xs font-light text-white">{movie.vote_count} voted</p>
-                  </div>
-                  <button class="px-2 h-6 bg-yellow-500 font-medium text-black">+</button>
-                </div>
-              </div>
-            </div>
-          {/each}
-        {/if}
-      </div>        
-    </div>
+  <PopularMovies {popularMovies} {errorPopular}/>
+ 
   <!-- Movies Section -->
-  <div>
-    <h2 class="font-bold text-black text-4xl my-5">Film Terbaik</h2>
-    <div class="container flex flex-row scrollbar-hidden overflow-x-auto gap-x-2">
-      {#if errorTopRated}
-        <p class="text-red-500">Error: {errorTopRated}</p>
-      {:else if topRatedMovies.length > 0}
-        {#each topRatedMovies as movie}
-          <div class="relative h-[367px] w-60 flex-shrink-0 flex items-end justify-start text-left bg-cover bg-center rounded-2xl"
-            style="background-image: url('https://image.tmdb.org/t/p/w500{movie.poster_path}');">
-            <div class="absolute top-0 right-0 bottom-0 left-0 bg-gradient-to-b from-transparent to-gray-900 rounded-lg"></div>
-            <div class="flex mx-4 w-full flex-col mb-5 z-10 gap-y-1">
-              <div class="flex flex-row items-end gap-x-1 flex-shrink">
-                <p class={`font-bold text-white ${getFontSize(movie.title)}`}>{movie.title}</p>
-                <p class="font-light text-white text-sm">{movie.release_date.slice(0, 4)}</p>
-              </div>
-              <div class="flex flex-row justify-between items-end">
-                <div class="flex flex-col gap-y-0.5">
-                  <p class="text-xs font-light text-white">⭐{movie.vote_average}</p>
-                  <p class="ms-1 text-xs font-light text-white">{movie.vote_count} voted</p>
-                </div>
-                <button class="px-2 h-6 bg-yellow-500 font-medium text-black">+</button>
-              </div>
-            </div>
-          </div>
-        {/each}
-      {/if}
-    </div>        
-  </div>
+  <BestMovie {topRatedMovies} {errorTopRated}/>
+
 </main>
