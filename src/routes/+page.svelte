@@ -1,5 +1,5 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount , onDestroy} from 'svelte';
   import { fetchMovies , fetchGenres} from '../api/api.js';
   import PopularMovies from '../components/PopularMovies.svelte';
   import BestMovie from '../components/BestMovie.svelte';
@@ -42,7 +42,10 @@
     }
     return () => clearInterval(interval);
   });
-
+  
+  onDestroy(()=>{
+    clearInterval(interval)
+  })
   const setActiveMovie = (index) => {
     activeMovieIndex = index;
   };
