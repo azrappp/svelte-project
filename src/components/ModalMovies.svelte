@@ -21,13 +21,11 @@
   });
   }
 
-  // Fungsi untuk menutup modal
   function close() {
     isOpen = false;
     dispatch('close');
   }
 
-  // Fungsi untuk mencocokkan genre IDs dengan nama genre
   const getGenreNames = (genreIds) => {
     getGenres();
     console.log("iki genre")
