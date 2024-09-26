@@ -1,3 +1,14 @@
+const BASE_URL = "https://api.themoviedb.org/3";
+const API_KEY = import.meta.env.VITE_TMDB_API_KEY; // Ambil dari variabel lingkungan
+
+const getFetchOptions = () => ({
+  method: "GET",
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${API_KEY}`, // Gunakan API key dari env
+  },
+});
+
 export async function fetchMovies({
   type = "popular",
   page = 1,
@@ -11,41 +22,30 @@ export async function fetchMovies({
     );
   }
 
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzcxNTRmZDVjZDdhNDQxMmQwMDE4NDRhY2FkYzc4ZCIsIm5iZiI6MTcyNDg4NTU5Ny4wNTI4MDIsInN1YiI6IjY2Y2RlMWE5ZDhmNGZhMTBhMzYzYTM5NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oGVmNjYidpyNxW9qEGwxDUhB3mw24BPNVFX-BkiFHrM",
-    },
-  };
+  const endpoint = `${BASE_URL}/movie/${type}?language=${language}&page=${page}`;
+  const response = await fetch(endpoint, getFetchOptions());
 
-  const endpoint = `https://api.themoviedb.org/3/movie/${type}?language=${language}&page=${page}`;
-
-  const response = await fetch(endpoint, options);
   if (!response.ok) {
-    throw new Error(`Failed to fetch ${type} movies`);
+    const errorData = await response.json(); // Ambil data error untuk informasi lebih lanjut
+    throw new Error(
+      `Failed to fetch ${type} movies: ${
+        errorData.status_message || "Unknown error"
+      }`
+    );
   }
 
   return await response.json();
 }
 
 export async function fetchGenres() {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzYzcxNTRmZDVjZDdhNDQxMmQwMDE4NDRhY2FkYzc4ZCIsIm5iZiI6MTcyNDg4NTU5Ny4wNTI4MDIsInN1YiI6IjY2Y2RlMWE5ZDhmNGZhMTBhMzYzYTM5NyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.oGVmNjYidpyNxW9qEGwxDUhB3mw24BPNVFX-BkiFHrM",
-    },
-  };
+  const endpoint = `${BASE_URL}/genre/movie/list?language=en-US`;
+  const response = await fetch(endpoint, getFetchOptions());
 
-  const response = await fetch(
-    "https://api.themoviedb.org/3/genre/movie/list?language=en-US",
-    options
-  );
   if (!response.ok) {
-    throw new Error("Failed to fetch genres");
+    const errorData = await response.json(); // Ambil data error untuk informasi lebih lanjut
+    throw new Error(
+      `Failed to fetch genres: ${errorData.status_message || "Unknown error"}`
+    );
   }
 
   return await response.json();
